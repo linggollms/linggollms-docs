@@ -16,8 +16,6 @@ The product repositories of Linggo LLMs are private. This page says why, and wha
 
 - This documentation repo: what each product is, how it is built, the architecture, the history, and how the company runs.
 - The [organization README](https://github.com/linggollms): the ten-week story, the numbers, and the architecture map.
-- `linggollms-design-system`: the brand foundations.
-- `website-refresh-studio`: the public website.
 - Every repo's README, reproduced here under [apps/](apps/) at the level of purpose, stack and status.
 
 ## What we will show on request

@@ -18,8 +18,7 @@ Public documentation for [Linggo LLMs](https://github.com/linggollms), AAC (augm
 **What is public, and where**
 
 - `linggollms/.github` and this repo: public.
-- `linggollms-design-system` and `website-refresh-studio`: public (brand foundations and the marketing site; nothing sensitive).
-- `linggollms-aphasia-webapp`, `linggollms-asd-idd-webapp`, `linggollms-ops`, `linggollms-animation-studio`, `socialmedia_agent`: private. Each is described in this repo at the level of what it is, what it runs on and what state it is in.
+- `linggollms-aphasia-webapp`, `linggollms-asd-idd-webapp`, `linggollms-design-system`, `website-refresh-studio`, `linggollms-ops`, `linggollms-animation-studio`, `socialmedia_agent`: private. Each is described in this repo at the level of what it is, what it runs on and what state it is in.
 
 **Rules for this repo**
 
