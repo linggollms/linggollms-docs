@@ -72,7 +72,7 @@ September 4 to November 1, 2026. Dates come from the git history of the repos an
 
 ### Before
 
-Linggo was founded in 2021 by a Board Certified Behavior Analyst with years of AAC practice, and shipped its first working beta during COVID. The original product was a live AAC app used by families and clinicians: a Python Serverless Framework backend on AWS Lambda, API Gateway, Cognito, DynamoDB and S3, a self-managed Neo4j graph database on EC2, and a Flutter front end, built by a contracted development team. By late 2024 active development had stopped. The last meaningful commits to the original codebase are from September 2024; for the next twelve months the app ran, and nobody was building it.
+Linggo was founded by a Board Certified Behavior Analyst with years of AAC practice. Development began at the end of 2019, and the first beta was released in 2021, during COVID. The original product was a live AAC app used by families and clinicians: a Python Serverless Framework backend on AWS Lambda, API Gateway, Cognito, DynamoDB and S3, a self-managed Neo4j graph database on EC2, and a Flutter front end, built by a contracted development team. By late 2024 active development had stopped. The last meaningful commits to the original codebase are from September 2024; for the next twelve months the app ran, and nobody was building it.
 
 ### September 2026: the outage
 
@@ -90,10 +90,10 @@ That was the turning point. The decision was not to patch the old system but to 
 | **Late Sept** | Security hotfixes (hashed PIN functions, admin-only clinician links); consumer-beta sign-up with an active consent checkbox and a stored consent record. |
 | **Sept 30** | The adult (aphasia) product is specified. |
 | **Early Oct** | The approach to the first version's hosting is set: treat its auth and data as an MVP layer, sync to a Linggo-owned GitHub repo from day one, plan the replacement before leaving. |
-| **Oct 13–15** | Children's app: a demo board with a recorded voice, Scene Chat with AI suggestions, child starter topics, safety limits on codes, PINs and paid voices. The product and AI roadmap, the plan to move off the first host, and the HIPAA-controlled AWS environment plan are written. The database is rehearsed on plain Postgres: every migration applies. |
+| **Oct 13–15** | ASD/IDD app: a demo board with a recorded voice, Scene Chat with AI suggestions, child starter topics, safety limits on codes, PINs and paid voices. The product and AI roadmap, the plan to move off the first host, and the HIPAA-controlled AWS environment plan are written. The database is rehearsed on plain Postgres: every migration applies. |
 | **Oct 15–16** | **The move to AWS.** The managed database the first version ran on could not meet HIPAA requirements, and migrating users' language graphs later would only get harder. Cognito sign-in with a pre-token Lambda, PostgREST on RDS Postgres, S3 with signed links, Polly voices, Bedrock AI helpers; App Runner at first, replaced by ECS Fargate. The hosting and sync layer is removed. |
-| **Oct 17** | **The adult app restarts on AWS** as a copy of the children's AWS branch. Adult starter topics in whole sentences, adult voices, adult library and Quick Chat. Database built from scratch and rehearsed locally the same day. |
-| **Oct 17–22** | About 140 commits on the adult app: opt-in beta research, the beta feedback survey, "Delete my account", the care-partner questionnaire with printable communication and wallet cards, Stop/Undo/"I'm not finished", phone layouts, "Keep me signed in". |
+| **Oct 17** | **The Aphasia app restarts on AWS** as a copy of the ASD/IDD app's AWS branch. Adult starter topics in whole sentences, adult voices, adult library and Quick Chat. Database built from scratch and rehearsed locally the same day. |
+| **Oct 17–22** | About 140 commits on the Aphasia app: opt-in beta research, the beta feedback survey, "Delete my account", the care-partner questionnaire with printable communication and wallet cards, Stop/Undo/"I'm not finished", phone layouts, "Keep me signed in". |
 | **Oct 20** | The architecture target is written: the person owns their account for life, care settings borrow access, a bedside tablet is only borrowed; store apps via Capacitor; Neptune; FHIR and the Smile CDR appSphere gallery. |
 | **Oct 21–22** | **The aphasia product gets its own AWS member account** inside a Linggo LLMs AWS Organization: organization-wide BAA accepted (the "Healthcare and Life Sciences" add-on deliberately declined, because it would let AWS de-identify our data for its own use); organization-wide CloudTrail; GuardDuty; AWS Config with the HIPAA conformance pack (130 checks); Security Hub. Four CloudFormation templates and one build script. Amazon Neptune built, IAM-only, encrypted with the app's own key, every query audited. Switched over October 22. |
 | **Oct 22** | The care-team architecture is written: companions, coaches, admins, consent, access log, FHIR mapping. The research agent's evidence review of the v1 beta produces the build list for the next release. |
@@ -111,7 +111,7 @@ That was the turning point. The decision was not to patch the old system but to 
 | --- | --- |
 | One code base for children and adults; different content, voices and tone | Oct 17 |
 | Only HIPAA-eligible AWS services touch what a person says; any outside voice or AI service needs a BAA or stays off | Oct 20–22 |
-| The adult app in its own AWS member account; the children's app in the organization's main account | Oct 21, revised Oct 28 |
+| The Aphasia app in its own AWS member account; the ASD/IDD app in the organization's main account | Oct 21, revised Oct 28 |
 | Postgres is the record; Neptune sits beside it; the personal graph first, an anonymous shared graph (opt-in) later | Oct 20–22 |
 | The person owns their account for life; organizations get time-limited access; a bedside tablet is only borrowed | Oct 20 |
 | Data collection off by default; beta only, by number not name | Oct 19 |
@@ -134,8 +134,8 @@ flowchart LR
   APP["One code base<br/>same app, two products"]
   subgraph ORG["Linggo LLMs AWS Organization · one BAA · one audit trail"]
     direction LR
-    A["ASD/IDD account<br/>children's product"]
-    B["Aphasia account<br/>adult product + language graph"]
+    A["ASD/IDD account<br/>the ASD/IDD app"]
+    B["Aphasia account<br/>the Aphasia app + language graph"]
   end
   P --> APP
   APP --> A
@@ -180,7 +180,7 @@ flowchart LR
 | Who | Children and youth with autism or IDD and little or no speech; parents, caregivers, teachers, therapists | Adults with aphasia (often after stroke), dementia or brain injury; families, carers, speech-language pathologists |
 | Repo | `linggollms-asd-idd-webapp` (private) | `linggollms-aphasia-webapp` (private; its `docs/` is the platform's documentation of record) |
 | Status | Beta, Nov 1, 2026, web app + PWA at webapp-dd.linggollms.com | Beta since Oct 23, 2026, web app + PWA at webapp-pwa.linggollms.com |
-| Code | **Shared.** The adult app began Oct 17 as a copy of the children's AWS branch; the children's repo is a git remote of the adult repo, so fixes flow both ways | Same |
+| Code | **Shared.** The Aphasia app began Oct 17 as a copy of the ASD/IDD app's AWS branch; the ASD/IDD repo is a git remote of the Aphasia repo, so fixes flow both ways | Same |
 | What differs in code | Starter topics, voices, tone, default theme (purple Day Orchid), setup copy for parents and teachers, Scene Chat with AI suggestions, demo board with a recorded voice | Whole-sentence adult starter topics, adult voices, default theme (teal Calm Lagoon), setup copy for families and carers of adults, Stop/Undo/"I'm not finished", printable communication and wallet cards |
 | Languages | English, Spanish, Arabic, Mandarin, French | Same |
 | Board modes | Language Tree, My Words, Keyboard with predictions, Quick Chat, Scene Chat | Same five, adult content |
@@ -212,7 +212,7 @@ flowchart LR
 
 **Data.** The two products never share a database, a sign-in pool or a bucket. A child's words and an adult's words live in different accounts.
 
-**Accounts.** The adult product has its own AWS member account because it is the one heading into hospitals, where a HIPAA audit will want to see one boundary. The children's product runs in the organization's account for now and would move to its own the day it needs to.
+**Accounts.** The Aphasia product has its own AWS member account because it is the one heading into hospitals, where a HIPAA audit will want to see one boundary. The ASD/IDD product runs in the organization's account for now and would move to its own the day it needs to.
 
 ### Compute: ECS Fargate
 
@@ -220,7 +220,7 @@ Both app servers run on ECS Fargate inside each account's private network. App R
 
 ### The data layer
 
-**Postgres is the record of everything.** Each product has its own RDS Postgres 16, reached through PostgREST with Cognito-issued tokens. Schema changes are versioned migrations rehearsed on a local Postgres before every deploy (139 in the adult app, 114 in the children's, as of Nov 1, 2026).
+**Postgres is the record of everything.** Each product has its own RDS Postgres 16, reached through PostgREST with Cognito-issued tokens. Schema changes are versioned migrations rehearsed on a local Postgres before every deploy (139 in the Aphasia app, 114 in the ASD/IDD app, as of Nov 1, 2026).
 
 **Neptune sits beside it** (Aphasia today) and links things so the app can understand one person better over time: a person → what they said → the words and pictures they used; each word → what it means for that person ("cold" meaning pain) → later a standard medical meaning (SNOMED CT); what they said → where they were (hospital, rehab, home); a person → the training they did → the words it practises. The person's own graph first; a shared, anonymous graph across people who opt in later. Reachable only inside the private network, IAM-only, every query audited and kept a year. This is where the patent work (US Application 18/452,469, *Assistive Communication Using Word Trees*) lives in the product.
 
@@ -244,7 +244,7 @@ The principle that drives all of this: the person owns their Linggo LLMs account
 
 ### Designed, not yet built
 
-Companion app (parents and caregivers), Coach app (clinicians; the live version after the beta), Admin panel (clinics, schools, hospitals), store apps, hospital connections through FHIR and the Smile CDR appSphere gallery, the Neptune write path, the email PHI intake, the in-app assistants, and the move of the children's product into its own account when it needs one. All are specified in the adult repo's `docs/` and in architecture decision records ADR-001 to ADR-015.
+Companion app (parents and caregivers), Coach app (clinicians; the live version after the beta), Admin panel (clinics, schools, hospitals), store apps, hospital connections through FHIR and the Smile CDR appSphere gallery, the Neptune write path, the email PHI intake, the in-app assistants, and the move of the ASD/IDD product into its own account when it needs one. All are specified in the Aphasia repo's `docs/` and in architecture decision records ADR-001 to ADR-015.
 
 ---
 
@@ -252,11 +252,11 @@ Companion app (parents and caregivers), Coach app (clinicians; the live version 
 
 An AAC (picture and text communication) board for adults who have lost some or all of their speech: aphasia after a stroke, dementia, or a brain injury. The person taps pictures, words or whole sentences and the device says them aloud. Built for the person first, and for the families, carers and speech-language pathologists around them.
 
-Part of [Linggo LLMs](https://github.com/linggollms). Started October 17, 2026 as a copy of the children's app, [Linggo LLMs ASD/IDD](https://github.com/linggollms/linggollms-asd-idd-webapp); the two share one code base and never share data.
+Part of [Linggo LLMs](https://github.com/linggollms). Started October 17, 2026 as a copy of the ASD/IDD app, [Linggo LLMs ASD/IDD](https://github.com/linggollms/linggollms-asd-idd-webapp); the two share one code base and never share data.
 
 **Status:** beta since October 23, 2026, web app and home-screen PWA at webapp-pwa.linggollms.com. This repo's `docs/` folder is the platform's documentation of record (PRD, TRD, architecture target, care-team architecture, Neptune, ADRs).
 
-### What makes it the adult app
+### What makes it the Aphasia app
 
 - **Whole adult sentences.** Every starter tile says a complete message ("I need the bathroom.", "Please give me time to answer."), in English, Spanish, Arabic, Chinese and French.
 - **Adult starter topics:** Talking With Me (speaking accommodations for aphasia, all on the page), Speaking Up, Small Talk, Daily Needs, Health and Care, Feelings, About Me, My Day, Home, Things I Enjoy, Out and About. Each topic shows its most important tiles first, then small folders with the rest.
@@ -264,7 +264,7 @@ Part of [Linggo LLMs](https://github.com/linggollms). Started October 17, 2026 a
 - **Stop / Undo / "I'm not finished"**, phone layouts, "Keep me signed in", printable communication and wallet cards, and "Delete my account" (the person owns their account for life; care settings only borrow access).
 - **Opt-in beta research** with de-identified figures; data collection off by default.
 
-Everything else (the board, Quick Chat, "+ More", typing, the Dashboard and Builder, pictures, offline use, switch access) works as in the children's app.
+Everything else (the board, Quick Chat, "+ More", typing, the Dashboard and Builder, pictures, offline use, switch access) works as in the ASD/IDD app.
 
 ### Where it runs
 
@@ -286,7 +286,7 @@ No secrets, account IDs, resource IDs, IP addresses, or anything that identifies
 
 An AAC (picture and text communication) board for children and youth with autism or intellectual and developmental disabilities who have little or no speech, and for the parents, caregivers, teachers and therapists around them. The child taps pictures, words or whole sentences and the device says them aloud.
 
-Part of [Linggo LLMs](https://github.com/linggollms). The adult product, [Linggo LLMs Aphasia](https://github.com/linggollms/linggollms-aphasia-webapp), shares this code base with different content, voices and tone; fixes flow both ways. The two apps never share data.
+Part of [Linggo LLMs](https://github.com/linggollms). The Aphasia product, [Linggo LLMs Aphasia](https://github.com/linggollms/linggollms-aphasia-webapp), shares this code base with different content, voices and tone; fixes flow both ways. The two apps never share data.
 
 **Status:** beta (November 1, 2026), web app and home-screen PWA at webapp-dd.linggollms.com. Replaces the original Linggo app (2021–2024, Flutter).
 

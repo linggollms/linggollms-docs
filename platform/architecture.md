@@ -12,8 +12,8 @@ flowchart LR
   APP["One code base<br/>same app, two products"]
   subgraph ORG["Linggo LLMs AWS Organization · one BAA · one audit trail"]
     direction LR
-    A["ASD/IDD account<br/>children's product"]
-    B["Aphasia account<br/>adult product + language graph"]
+    A["ASD/IDD account<br/>the ASD/IDD app"]
+    B["Aphasia account<br/>the Aphasia app + language graph"]
   end
   P --> APP
   APP --> A
@@ -58,7 +58,7 @@ flowchart LR
 | Who | Children and youth with autism or IDD and little or no speech; parents, caregivers, teachers, therapists | Adults with aphasia (often after stroke), dementia or brain injury; families, carers, speech-language pathologists |
 | Repo | `linggollms-asd-idd-webapp` (private) | `linggollms-aphasia-webapp` (private; its `docs/` is the platform's documentation of record) |
 | Status | Beta, Nov 1, 2026, web app + PWA at webapp-dd.linggollms.com | Beta since Oct 23, 2026, web app + PWA at webapp-pwa.linggollms.com |
-| Code | **Shared.** The adult app began Oct 17 as a copy of the children's AWS branch; the children's repo is a git remote of the adult repo, so fixes flow both ways | Same |
+| Code | **Shared.** The Aphasia app began Oct 17 as a copy of the ASD/IDD app's AWS branch; the ASD/IDD repo is a git remote of the Aphasia repo, so fixes flow both ways | Same |
 | What differs in code | Starter topics, voices, tone, default theme (purple Day Orchid), setup copy for parents and teachers, Scene Chat with AI suggestions, demo board with a recorded voice | Whole-sentence adult starter topics, adult voices, default theme (teal Calm Lagoon), setup copy for families and carers of adults, Stop/Undo/"I'm not finished", printable communication and wallet cards |
 | Languages | English, Spanish, Arabic, Mandarin, French | Same |
 | Board modes | Language Tree, My Words, Keyboard with predictions, Quick Chat, Scene Chat | Same five, adult content |
@@ -90,7 +90,7 @@ flowchart LR
 
 **Data.** The two products never share a database, a sign-in pool or a bucket. A child's words and an adult's words live in different accounts.
 
-**Accounts.** The adult product has its own AWS member account because it is the one heading into hospitals, where a HIPAA audit will want to see one boundary. The children's product runs in the organization's account for now and would move to its own the day it needs to.
+**Accounts.** The Aphasia product has its own AWS member account because it is the one heading into hospitals, where a HIPAA audit will want to see one boundary. The ASD/IDD product runs in the organization's account for now and would move to its own the day it needs to.
 
 ## Compute: ECS Fargate
 
@@ -98,7 +98,7 @@ Both app servers run on ECS Fargate inside each account's private network. App R
 
 ## The data layer
 
-**Postgres is the record of everything.** Each product has its own RDS Postgres 16, reached through PostgREST with Cognito-issued tokens. Schema changes are versioned migrations rehearsed on a local Postgres before every deploy (139 in the adult app, 114 in the children's, as of Nov 1, 2026).
+**Postgres is the record of everything.** Each product has its own RDS Postgres 16, reached through PostgREST with Cognito-issued tokens. Schema changes are versioned migrations rehearsed on a local Postgres before every deploy (139 in the Aphasia app, 114 in the ASD/IDD app, as of Nov 1, 2026).
 
 **Neptune sits beside it** (Aphasia today) and links things so the app can understand one person better over time: a person → what they said → the words and pictures they used; each word → what it means for that person ("cold" meaning pain) → later a standard medical meaning (SNOMED CT); what they said → where they were (hospital, rehab, home); a person → the training they did → the words it practises. The person's own graph first; a shared, anonymous graph across people who opt in later. Reachable only inside the private network, IAM-only, every query audited and kept a year. This is where the patent work (US Application 18/452,469, *Assistive Communication Using Word Trees*) lives in the product.
 
@@ -122,4 +122,4 @@ The principle that drives all of this: the person owns their Linggo LLMs account
 
 ## Designed, not yet built
 
-Companion app (parents and caregivers), Coach app (clinicians; the live version after the beta), Admin panel (clinics, schools, hospitals), store apps, hospital connections through FHIR and the Smile CDR appSphere gallery, the Neptune write path, the email PHI intake, the in-app assistants, and the move of the children's product into its own account when it needs one. All are specified in the adult repo's `docs/` and in architecture decision records ADR-001 to ADR-015.
+Companion app (parents and caregivers), Coach app (clinicians; the live version after the beta), Admin panel (clinics, schools, hospitals), store apps, hospital connections through FHIR and the Smile CDR appSphere gallery, the Neptune write path, the email PHI intake, the in-app assistants, and the move of the ASD/IDD product into its own account when it needs one. All are specified in the Aphasia repo's `docs/` and in architecture decision records ADR-001 to ADR-015.

@@ -9,8 +9,8 @@ Public documentation for [Linggo LLMs](https://github.com/linggollms), AAC (augm
 | [Why the code is private](why-the-code-is-private.md) | What a reader can and cannot see, and the reasons |
 | [The ten weeks](platform/history.md) | How a clinician rebuilt the company from the first line of code, Sept 4 – Nov 1, 2026 |
 | [Architecture](platform/architecture.md) | The AWS Organization, the two accounts, the HIPAA posture, the language graph |
-| [Linggo LLMs Aphasia](apps/aphasia.md) | The adult product: what it is, stack, status |
-| [Linggo LLMs ASD/IDD](apps/asd-idd.md) | The children's product: what it is, stack, status |
+| [Linggo LLMs Aphasia](apps/aphasia.md) | The Aphasia product: what it is, stack, status |
+| [Linggo LLMs ASD/IDD](apps/asd-idd.md) | The ASD/IDD product: what it is, stack, status |
 | [Supporting repos](apps/support-repos.md) | Design system, training-video studio, ops robot, social agent, website |
 | [COM Systems: how the company runs](com-systems.md) | The AI-native operating system behind Linggo LLMs, and how it was built |
 | [Agents](agents.md) | The agents that run research, intel, ops and social, and the standard every agent must meet before it goes live |
