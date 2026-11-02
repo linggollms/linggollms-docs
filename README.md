@@ -7,7 +7,7 @@ Public documentation for [Linggo LLMs](https://github.com/linggollms), AAC (augm
 | Page | What it answers |
 | --- | --- |
 | [Why the code is private](why-the-code-is-private.md) | What a reader can and cannot see, and the reasons |
-| [The ten weeks](platform/history.md) | How a clinician rebuilt the company from the first line of code, Sept 4 – Nov 1, 2026 |
+| [History](platform/history.md) | Activity log: what was built, shipped and decided, with dates, since September 4, 2026 |
 | [Architecture](platform/architecture.md) | The AWS Organization, the two accounts, the HIPAA posture, the language graph |
 | [Linggo LLMs Aphasia](apps/aphasia.md) | The Aphasia product: what it is, stack, status |
 | [Linggo LLMs ASD/IDD](apps/asd-idd.md) | The ASD/IDD product: what it is, stack, status |
