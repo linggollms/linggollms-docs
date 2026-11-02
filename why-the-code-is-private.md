@@ -20,7 +20,7 @@ The product repositories of Linggo LLMs are private. This page says why, and wha
 
 ## What we will show on request
 
-Under NDA, to investors, clinical partners and auditors: the repositories themselves, the AWS Config conformance results, the CloudTrail and Neptune audit log configuration, the architecture decision records (ADR-001 to ADR-015), the security scan results, and the beta research protocol. Write to admin@linggollms.com.
+Under NDA, to investors, clinical partners and auditors: the repositories themselves, the AWS Config conformance results, the CloudTrail and Neptune audit log configuration, the architecture decision records (ADR-001 to ADR-015), the security scan results, and the beta research protocol. Write to ling@linggollms.com.
 
 ## What is never written anywhere public
 

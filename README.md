@@ -27,4 +27,4 @@ Plain words: clinicians, families, partners and investors read this, not only de
 
 The source of truth for app-level documentation is `docs/` inside each app repo; this repo mirrors the platform-level parts of it. Where a page here and a page there disagree, the app repo is right and this one is behind.
 
-**Contact:** Ling Ly Tan, Founder and CEO · admin@linggollms.com · [linggollms.com](https://linggollms.com)
+**Contact:** Ling Ly Tan, Founder and CEO · ling@linggollms.com · [linggollms.com](https://linggollms.com)

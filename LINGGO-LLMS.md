@@ -56,7 +56,7 @@ The product repositories of Linggo LLMs are private. This page says why, and wha
 
 ### What we will show on request
 
-Under NDA, to investors, clinical partners and auditors: the repositories themselves, the AWS Config conformance results, the CloudTrail and Neptune audit log configuration, the architecture decision records (ADR-001 to ADR-015), the security scan results, and the beta research protocol. Write to admin@linggollms.com.
+Under NDA, to investors, clinical partners and auditors: the repositories themselves, the AWS Config conformance results, the CloudTrail and Neptune audit log configuration, the architecture decision records (ADR-001 to ADR-015), the security scan results, and the beta research protocol. Write to ling@linggollms.com.
 
 ### What is never written anywhere public
 
@@ -530,4 +530,4 @@ How accessibility is checked day to day is in [Agents](#9-agents) (the Accessibi
 - **Accessible by default.** Screens are designed and checked against WCAG 2.2 AA, with keyboard and switch access, screen readers and five languages. [Accessibility Statement.](https://www.linggollms.com/accessibility)
 - **Plain words.** Documentation is written for clinicians, families and partners, not just developers.
 
-**Contact:** Ling Ly Tan, Founder and CEO · admin@linggollms.com · [linggollms.com](https://linggollms.com)
+**Contact:** Ling Ly Tan, Founder and CEO · ling@linggollms.com · [linggollms.com](https://linggollms.com)
