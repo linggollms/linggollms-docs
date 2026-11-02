@@ -42,6 +42,10 @@ None of these agents touches health information. The operating-system layer (Not
 
 **Brand.** The Linggo LLMs design system (logo, palette, type, icons, voice) lives as a Claude design system and in `linggollms-design-system`; it guides the Notion pages, the apps and the website so one brand appears everywhere.
 
+## Accessibility
+
+**Accessibility Reviewer** (Claude Console; instructions in the company brain, linked from every other brain). Reviews every pull request in the two apps and the website, every new feature or screen, every social post before it is scheduled, documents, slides, videos and course materials, and does a full review before each beta and store release. The standard is WCAG 2.2 Level AA on everything, plus the brand's own rules (AAA text contrast, 44 px targets, a visible focus ring, never color alone, reflow at 320 px and 200% zoom, captions, reduced motion, Arabic mirrored) and AAC needs: switch scanning, eye gaze and dwell, aphasia-friendly wording, no timeouts, Stop and Undo always available. Each full review follows W3C's WCAG-EM method (scope, explore, sample, test, report). It is read-only: it reads code and content, labels every finding Confirmed, Flagged (not confirmed) or Fixed, puts anything that affects how people communicate first, and lists the hands-on tests a person must still run on devices. Findings go to the Accessibility Log and the Accessibility Audit Results database; fixes go to Claude Code as pull requests, after a person confirms. It never claims a third-party audit and never records health information or names. The public commitment is the [Accessibility Statement](https://www.linggollms.com/accessibility); see also [Policies](policies.md).
+
 ## The go-live gate, for every agent
 
 | Field | What it must say |

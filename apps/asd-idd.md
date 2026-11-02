@@ -13,16 +13,17 @@ Part of [Linggo LLMs](https://github.com/linggollms). The Aphasia product, [Ling
 - **Language Tree, My Words, Keyboard with predictions, Quick Chat, Scene Chat.** Five board modes, built to match how learners moved through the original Linggo so no one has to relearn.
 - **Five languages:** English, Spanish, Arabic, Mandarin, French, including right-to-left and CJK layouts.
 - **A 3,500+ word library** with photos and emoji (skin tones included), a Symbol Lab, and a caregiver Builder behind a PIN. No editing on the learner's screens.
-- **Natural voices** (Amazon Polly) with device-voice fallback; a demo board with a recorded voice.
+- **Natural voices** (Amazon Polly) with child voices by default and device-voice fallback. Five character voices (ElevenLabs) are opt-in: off by default, library words cached ahead of time, a new word sent once and then cached, disclosed in the [Privacy Policy](../policies.md).
+- **Public demo:** Lily's and Justin's communication boards, no sign-in, at demo-lily.linggollms.com and demo-justin.linggollms.com.
 - **Accessibility:** switch-access-friendly focus handling, accessible keyboards, full offline use.
 - **AI helpers** on Amazon Bedrock for suggestions (Scene Chat suggest-from-photo), behind safety limits on codes, PINs and paid voices.
 - **Beta research, opt-in only.** Data collection is off by default; beta participants are identified by a number, not a name.
 
 ## Where it runs
 
-AWS, in the Linggo LLMs account: ECS Fargate (the app server, inside a private network), Cognito (sign-in), PostgREST on Amazon RDS Postgres (the database), S3 (pictures), Polly (voices), Bedrock (AI helpers). Organization-wide BAA, CloudTrail, GuardDuty, AWS Config with the HIPAA conformance pack, Security Hub. Setup and settings: `docs/aws-app-settings.md`, `docs/two-apps.md`.
+AWS, in the Linggo LLMs account (the organization's main account): ECS Fargate in a private network behind an HTTPS-only load balancer (built October 30–31, 2026; App Runner serves until the web address is switched), Cognito (sign-in), PostgREST on Amazon RDS Postgres (the database), S3 (pictures), Polly (voices), Bedrock (AI helpers). Organization-wide BAA, CloudTrail, GuardDuty, AWS Config with the HIPAA conformance pack, Security Hub. The database and database API were first built by hand on October 16 and are to be rebuilt inside a private network from the same CloudFormation kit as the Aphasia app. Setup and settings: `docs/architecture.md`, `docs/fargate.md`, `docs/aws-account-kit.md`, `docs/aws-app-settings.md`.
 
-The first version of this app ran on Lovable (Supabase, Cloudflare) from September 4 to mid-October 2026. It moved to AWS because the managed database could not meet HIPAA requirements; the Lovable copy is frozen until its last user has moved.
+Development is on AWS only. The first version of this app ran on a hosted prototype platform from September 4 to mid-October 2026 (code kept in GitHub from day one, first in the `mylinggo` account); it moved to AWS because that platform's managed database could not meet HIPAA requirements. People are moving onto the AWS app.
 
 ## Stack
 
