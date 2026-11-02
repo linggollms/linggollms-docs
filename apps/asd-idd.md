@@ -13,7 +13,7 @@ Part of [Linggo LLMs](https://github.com/linggollms). The Aphasia product, [Ling
 - **Language Tree, My Words, Keyboard with predictions, Quick Chat, Scene Chat.** Five board modes, built to match how learners moved through the original Linggo so no one has to relearn.
 - **Five languages:** English, Spanish, Arabic, Mandarin, French, including right-to-left and CJK layouts.
 - **A 3,500+ word library** with photos and emoji (skin tones included), a Symbol Lab, and a caregiver Builder behind a PIN. No editing on the learner's screens.
-- **Natural voices** (Amazon Polly) with child voices by default and device-voice fallback.
+- **Natural voices** (Amazon Polly) with child voices by default and device-voice fallback. Five character voices (ElevenLabs) are opt-in: off by default, library words cached ahead of time, a new word sent once and then cached, disclosed in the [Privacy Policy](../policies.md).
 - **Public demo:** Lily's and Justin's communication boards, no sign-in, at demo-lily.linggollms.com and demo-justin.linggollms.com.
 - **Accessibility:** switch-access-friendly focus handling, accessible keyboards, full offline use.
 - **AI helpers** on Amazon Bedrock for suggestions (Scene Chat suggest-from-photo), behind safety limits on codes, PINs and paid voices.
