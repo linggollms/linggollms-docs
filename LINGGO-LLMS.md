@@ -15,7 +15,7 @@
 7. [Supporting repos](#7-supporting-repos)
 8. [COM Systems: how the company runs](#8-com-systems-how-the-company-runs)
 9. [Agents](#9-agents)
-10. [How we build, contact](#10-how-we-build-contact)
+10. [Policies, how we build, contact](#10-policies-how-we-build-contact)
 
 ---
 
@@ -220,7 +220,7 @@ flowchart LR
 
 **One AWS Organization.** One Business Associate Addendum covers every account, now and later. One CloudTrail trail records every account into one private, encrypted bucket. GuardDuty, AWS Config with the HIPAA conformance pack (130 checks) and Security Hub run in the account that holds health data. The Aphasia account's environment is created from four CloudFormation templates (base network, services, app, graph) and one build script, plus two for Fargate; the ASD/IDD repo carries the same kit, so its hand-made first pieces can be rebuilt the same way, and a third product would get its own account the same way.
 
-**One rule.** Only HIPAA-eligible AWS services touch what a person says. Any outside voice or AI service needs its own BAA or stays off. Every outside look at a person's information is recorded.
+**One rule.** Only HIPAA-eligible AWS services touch what a person says. Any outside voice or AI service needs its own BAA or stays off by default. The one opt-in exception is the ElevenLabs character voices: off by default, not offered in accounts from healthcare organizations, library words voiced ahead of time and cached, a new word sent once and then cached, and disclosed in the [Privacy Policy](https://github.com/linggollms/linggollms-docs/blob/main/policies.md). Every outside look at a person's information is recorded.
 
 ### What is kept apart
 
@@ -313,7 +313,7 @@ Part of [Linggo LLMs](https://github.com/linggollms). The Aphasia product, [Ling
 - **Language Tree, My Words, Keyboard with predictions, Quick Chat, Scene Chat.** Five board modes, built to match how learners moved through the original Linggo so no one has to relearn.
 - **Five languages:** English, Spanish, Arabic, Mandarin, French, including right-to-left and CJK layouts.
 - **A 3,500+ word library** with photos and emoji (skin tones included), a Symbol Lab, and a caregiver Builder behind a PIN. No editing on the learner's screens.
-- **Natural voices** (Amazon Polly) with child voices by default and device-voice fallback.
+- **Natural voices** (Amazon Polly) with child voices by default and device-voice fallback. Five character voices (ElevenLabs) are opt-in: off by default, library words cached ahead of time, a new word sent once and then cached, disclosed in the [Privacy Policy](https://github.com/linggollms/linggollms-docs/blob/main/policies.md).
 - **Public demo:** Lily's and Justin's communication boards, no sign-in, at demo-lily.linggollms.com and demo-justin.linggollms.com.
 - **Accessibility:** switch-access-friendly focus handling, accessible keyboards, full offline use.
 - **AI helpers** on Amazon Bedrock for suggestions (Scene Chat suggest-from-photo), behind safety limits on codes, PINs and paid voices.
@@ -467,6 +467,10 @@ None of these agents touches health information. The operating-system layer (Not
 
 **Brand.** The Linggo LLMs design system (logo, palette, type, icons, voice) lives as a Claude design system and in `linggollms-design-system`; it guides the Notion pages, the apps and the website so one brand appears everywhere.
 
+### Accessibility
+
+**Accessibility Reviewer** (Claude Console; instructions in the company brain, linked from every other brain). Reviews every pull request in the two apps and the website, every new feature or screen, every social post before it is scheduled, documents, slides, videos and course materials, and does a full review before each beta and store release. The standard is WCAG 2.2 Level AA on everything, plus the brand's own rules (AAA text contrast, 44 px targets, a visible focus ring, never color alone, reflow at 320 px and 200% zoom, captions, reduced motion, Arabic mirrored) and AAC needs: switch scanning, eye gaze and dwell, aphasia-friendly wording, no timeouts, Stop and Undo always available. Each full review follows W3C's WCAG-EM method (scope, explore, sample, test, report). It is read-only: it reads code and content, labels every finding Confirmed, Flagged (not confirmed) or Fixed, puts anything that affects how people communicate first, and lists the hands-on tests a person must still run on devices. Findings go to the Accessibility Log and the Accessibility Audit Results database; fixes go to Claude Code as pull requests, after a person confirms. It never claims a third-party audit and never records health information or names. The public commitment is the [Accessibility Statement](https://www.linggollms.com/accessibility); see also [Policies](https://github.com/linggollms/linggollms-docs/blob/main/policies.md).
+
 ### The go-live gate, for every agent
 
 | Field | What it must say |
@@ -482,7 +486,42 @@ Agents are reviewed quarterly: instructions re-read against current scope, skill
 
 ---
 
-## 10. How we build, contact
+## 10. Policies, how we build, contact
+
+### Policies
+
+The public policies of Linggo USA Inc, doing business as Linggo LLMs. They cover the website and both web apps, which run on Amazon Web Services: Linggo LLMs ASD/IDD at webapp-dd.linggollms.com and Linggo LLMs Aphasia at webapp-pwa.linggollms.com. The versions on the website are the ones in effect; this page summarizes them and says where each one lives. Current as of November 2, 2026.
+
+| Policy | Where | What it covers |
+| --- | --- | --- |
+| Privacy Policy | [linggollms.com/privacy](https://www.linggollms.com/privacy) | What we collect, how we use and share it, children's privacy, the beta, retention, your rights |
+| Terms of Use | [linggollms.com/terms](https://www.linggollms.com/terms) | The rules for using the website and apps |
+| Consumer Health Data Privacy Policy | [linggollms.com/health-data](https://www.linggollms.com/health-data) | How health data is handled, under state consumer health data laws |
+| Accessibility Statement | [linggollms.com/accessibility](https://www.linggollms.com/accessibility) | The standard we hold ourselves to, how we test, and how to tell us about a barrier |
+
+The Privacy Policy and Terms of Use are also published at policies.linggollms.com.
+
+#### Privacy, in short
+
+- We collect only what the apps need to work, and we do not sell personal information or show targeted advertising.
+- Accounts are created by adults: a parent or guardian, a caregiver, a professional, or an organization. Children cannot create their own accounts. Where COPPA requires it, we obtain verifiable parental consent first.
+- The apps and their data run on HIPAA-eligible AWS services in the United States, under a Business Associate Addendum with AWS. Only vendors with a Business Associate Agreement process health information for us: AWS, Anthropic and Notion. AI features run on Amazon Bedrock inside our AWS account, and our AI providers may not train on your content.
+- **Character voices (ElevenLabs) are opt-in.** They are off by default and not offered in accounts provided by healthcare organizations. The library's words are voiced ahead of time and cached; when a person adds a new word, that word is sent once to be voiced and then kept in the cache. ElevenLabs is listed as a provider in the Privacy Policy.
+- Sign-in codes by text message or WhatsApp carry no health information and are sent only to people who ask for them.
+- During the beta, beta information is seen by the team under a research number, not a name. Research studies are separate and need their own consent.
+- You can view, export, correct or delete your information. When an account is deleted, its content is removed from active systems and from backups within 90 days.
+
+#### Accessibility, in short
+
+- We aim to conform to **WCAG 2.2 Level AA** across the website and both apps, and treat it as a baseline.
+- The apps are built for keyboard and switch access (Switch Control on iPad and iPhone, Switch Access on Android) and screen readers, in five languages (Arabic, Chinese, English, French, Spanish).
+- Every review runs automated scans and manual tests with assistive technology: keyboard only, screen readers, switch access and text resizing. We have not yet commissioned a third-party audit.
+- In progress: built-in switch scanning and eye gaze, and replacing controls that need a hold, a double-tap or dragging.
+- Tell us about a barrier at admin@linggollms.com; we aim to respond within 5 business days.
+
+How accessibility is checked day to day is in [Agents](#9-agents) (the Accessibility Reviewer).
+
+**Contact:** Linggo USA Inc, doing business as Linggo LLMs, 110 16th Street, Suite 1460, Denver, CO 80202, USA · admin@linggollms.com
 
 ### How we build
 

@@ -12,6 +12,7 @@ Public documentation for [Linggo LLMs](https://github.com/linggollms), AAC (augm
 | [Linggo LLMs Aphasia](apps/aphasia.md) | The Aphasia product: what it is, stack, status |
 | [Linggo LLMs ASD/IDD](apps/asd-idd.md) | The ASD/IDD product: what it is, stack, status |
 | [Supporting repos](apps/support-repos.md) | Design system, training-video studio, ops robot, social agent, website |
+| [Policies](policies.md) | Privacy Policy, Terms of Use, Consumer Health Data Privacy Policy and Accessibility Statement: where they live and what they say |
 | [COM Systems: how the company runs](com-systems.md) | The AI-native operating system behind Linggo LLMs, and how it was built |
 | [Agents](agents.md) | The agents that run research, intel, ops and social, and the standard every agent must meet before it goes live |
 
