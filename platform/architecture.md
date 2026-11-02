@@ -85,7 +85,7 @@ flowchart LR
 
 **One AWS Organization.** One Business Associate Addendum covers every account, now and later. One CloudTrail trail records every account into one private, encrypted bucket. GuardDuty, AWS Config with the HIPAA conformance pack (130 checks) and Security Hub run in the account that holds health data. The Aphasia account's environment is created from four CloudFormation templates (base network, services, app, graph) and one build script, plus two for Fargate; the ASD/IDD repo carries the same kit, so its hand-made first pieces can be rebuilt the same way, and a third product would get its own account the same way.
 
-**One rule.** Only HIPAA-eligible AWS services touch what a person says. Any outside voice or AI service needs its own BAA or stays off. Every outside look at a person's information is recorded.
+**One rule.** Only HIPAA-eligible AWS services touch what a person says. Any outside voice or AI service needs its own BAA or stays off by default. The one opt-in exception is the ElevenLabs character voices: off by default, not offered in accounts from healthcare organizations, library words voiced ahead of time and cached, a new word sent once and then cached, and disclosed in the [Privacy Policy](../policies.md). Every outside look at a person's information is recorded.
 
 ## What is kept apart
 
