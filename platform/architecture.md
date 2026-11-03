@@ -166,7 +166,18 @@ P3 -- DeviceRequest + evaluation --> DME
 
 **Where FHIR sits.** Beside Postgres, inside each account's private network, behind the same load balancer and WAF. A FHIR server (Smile CDR proposed, because the Coach app will be listed in Smile's appSphere and Smile's DTR and PAS modules cover the CMS-0057-F prior-authorization flow; AWS HealthLake is the fallback) runs in a private subnet with its own encrypted Postgres, reachable only by that account's app server. It is the single door to hospitals, payers and the future DME partner. Boards, every tap, voice, images and the Neptune graph stay in Linggo LLMs' own Postgres, Neptune and S3; only consented, minimum-necessary clinical data goes into FHIR, and the first version is a read-only SMART on FHIR launch.
 
-**The new apps.** Companion (families and carers; consent on the person's behalf), Coach (SLPs, BCBAs, RBTs; a SMART on FHIR app launched from the hospital EHR, with the SLP evaluation template built in) and Admin (clinics, schools, hospitals; organizations, care teams, payer and coverage records) are routes in the shared code base, deployed in each account the same way the board is. The reimbursement rule that shapes them: insurance pays for equipment through a DME supplier, or a licensed clinician's live time under a plan of care; it does not pay for an app subscription. Codes live in `billing-codes.md`.
+**The business model that shapes them (November 3, 2026).** Linggo LLMs sells software and pre-recorded courses as assigned modules and does not supply clinical staff. A Coach is the customer's own clinician. Providers bill the core codes using the apps; a DME supplier partner bills the device codes; Linggo LLMs earns subscriptions, licences and partner fees. Insurance pays for equipment through a DME supplier, or for a licensed clinician's live time under a plan of care; it does not pay for an app subscription on its own. Codes live in `billing-codes.md`.
+
+**The new apps.** All are routes in the shared code base, deployed in each account the same way the board is:
+
+- **Learner app** (one spec per product): the AAC board itself, owned by the person for life.
+- **Companion app** (one spec per product): parents, guardians, families and carers; home practice, assigned courses, consent on the person's behalf. One Companion is included in the annual subscription.
+- **Coach app:** the customer's own clinician. SLPs run AAC, language, aphasia and cognitive-communication assessments; BCBAs run their assessments (VB-MAPP, ABLLS-R, AFLS, EFL, Vineland-3, FBA) and bill under their own credentials; BCaBAs and RBTs assist under supervision. Every Coach reviews the AI summary before anything reaches a family. It is a SMART on FHIR app launched from the hospital EHR, listed in Smile's appSphere, and its assessment and authorization packet is what feeds the payer's prior-authorization questionnaire.
+- **Admin panel:** clinics, schools and hospitals; organizations, care teams, payer and coverage records, and the state layer: state-by-state coverage rules, Medicaid HCBS waiver programs for caregiver training and assistive technology, and the source documents behind them, Colorado first.
+
+The specs for each app, and for the lifelong Learner account and Companion subscription, are drafted (November 3, 2026) and live with the product documentation; they move into the Aphasia repo's `docs/` as they settle.
+
+**Veterans Affairs (Aphasia).** VA buys devices and software directly and runs its own clinics, so the CMS prior-authorization path does not apply there. The sequence is: software licences to Veteran-owned accounts through the Prosthetic and Sensory Aids Service, with no VA system integration; Community Care billing for community clinicians using the same Medicare codes; Companion courses for the Caregiver Support Program; and only later a VA facility licence, which needs SAM.gov registration, Section 508 conformance (the WCAG 2.2 AA work supports this) and a VA security authorization, likely FedRAMP, for this environment. That last step is a much larger lift than the HIPAA work and is deliberately last.
 
 **Phases.**
 
@@ -174,7 +185,7 @@ P3 -- DeviceRequest + evaluation --> DME
 2. **FHIR foundation.** Approve ADR-016; add a FHIR-server template to the kit, deploy Aphasia first; add the FHIR connector to the app server; map Consent, Coverage, ServiceRequest, QuestionnaireResponse and DocumentReference.
 3. **Coach app and appSphere.** Coach with the SLP evaluation template and a read-only SMART launch; test on the Smile sandbox; apply to appSphere.
 4. **Admin panel and the ASD/IDD graph.** Organizations, care teams, NPI and taxonomy, payer and coverage records; Neptune in the ASD/IDD account from the same template.
-5. **Billing and prior authorization.** Settle who submits the request (Coach app or clinic EHR), the first payer target and the DME partner; CRD → DTR → PAS; re-check 2027 codes when the CY2027 fee schedule is final.
+5. **Billing and prior authorization.** Settle who submits the request (Coach app or clinic EHR), the first payer target and the DME partner; CRD → DTR → PAS; load the state layer (coverage rules, HCBS waivers, sources) into Admin, Colorado first; start the VA licence path for Aphasia; re-check 2027 codes when the CY2027 fee schedule is final.
 6. **Companion and store apps.** Companion with Consent and the lifelong account; iOS, Google Play and Amazon Appstore builds.
 
 ## Designed, not yet built
