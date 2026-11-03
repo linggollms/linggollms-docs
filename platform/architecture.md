@@ -1,5 +1,13 @@
 # Architecture: Linggo LLMs ASD/IDD and Linggo LLMs Aphasia
 
+## In one minute
+
+Linggo LLMs makes AAC (augmentative and alternative communication) software: a person with little or no speech taps pictures, words or sentences and the device speaks for them, in their own language. There are two products on one code base: one for children and youth with autism or IDD, one for adults with aphasia, dementia or brain injury. Both are in beta as web apps and home-screen PWAs, in five languages.
+
+The platform was rebuilt from scratch between September and November 2026 by the founder, a clinician, working with Claude Code, on an AWS environment designed for health information from the first day: one AWS Organization under one Business Associate Addendum, a separate account for each product so a child's words and an adult's words never share a database, private networks, encryption with each app's own keys, and automated HIPAA checks and audit logging in the account that holds health data.
+
+Each product runs the same way: an app server on ECS Fargate, Cognito for sign-in, Postgres as the record of everything, S3 for pictures, Polly for voices and Bedrock for AI, all inside the account. The Aphasia product adds a Neptune graph of each person's own language, the basis of the patent application. Next: the Companion, Coach and Admin apps, a FHIR layer so clinicians can use Linggo from inside hospital systems and payers can receive prior-authorization paperwork, and native store apps. The rest of this page is the detail.
+
 One document for both products. It says what the two apps share, what they keep separate, how the AWS environment is laid out, what is live, what is in progress, and what comes after the beta. Account and resource identifiers, network addresses and keys are never written down here or anywhere else public. Current as of November 3, 2026 (documented November 2; both accounts checked read-only in the AWS console on November 3).
 
 ## The whole thing, in three pictures
