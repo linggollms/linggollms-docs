@@ -1,6 +1,6 @@
 # Architecture: Linggo LLMs ASD/IDD and Linggo LLMs Aphasia
 
-One document for both products. It says what the two apps share, what they keep separate, how the AWS environment is laid out, what is live, what is in progress, and what comes after the beta. Account and resource identifiers, network addresses and keys are never written down here or anywhere else public. Current as of November 2, 2026.
+One document for both products. It says what the two apps share, what they keep separate, how the AWS environment is laid out, what is live, what is in progress, and what comes after the beta. Account and resource identifiers, network addresses and keys are never written down here or anywhere else public. Current as of November 3, 2026 (documented November 2; both accounts checked read-only in the AWS console on November 3).
 
 ## The whole thing, in three pictures
 
@@ -21,7 +21,7 @@ flowchart LR
   A -. no shared data .- B
 ```
 
-**2. Inside each account.** The same pattern in both; the graph exists only in the Aphasia account today.
+**2. Inside each account.** The same pattern in both; the graph is built in the Aphasia account today (stopped until its write path ships) and is planned for ASD/IDD.
 
 ```mermaid
 flowchart LR
@@ -69,13 +69,14 @@ flowchart LR
 | Sign-in | Own Cognito user pool | Own Cognito user pool |
 | Database | Own RDS Postgres via PostgREST; first built by hand on Oct 16, to be rebuilt inside a private network with the app's own key from the same CloudFormation kit as the Aphasia app | Own RDS Postgres 16 via PostgREST, private, encrypted with the app's own key |
 | Files | Own S3, signed links only | Own S3, signed links only |
-| Graph | None yet; none planned until there is a real need | Amazon Neptune: each person's own language graph. IAM-only, audited, encrypted. Built; write path in progress |
+| Graph | Amazon Neptune planned, from the same template as Aphasia; linking soon | Amazon Neptune: each person's own language graph. IAM-only, audited, encrypted. Built, kept stopped until the write path ships |
 | Voices | Amazon Polly, device fallback | Amazon Polly, device fallback; own-voice work in progress |
 | AI | In-app AI assistant for questions and support, on Bedrock inside the account (in progress); Scene Chat suggestions | In-app AI assistant (in progress); meanings from the personal graph via Bedrock (in progress); Comprehend Medical for symptoms and medicines with standard codes (planned) |
 | PHI intake | Not planned | By email (with a confidentiality addendum on every message) or by secure upload in the app; files land encrypted in the account, logged, and are processed inside the boundary (in progress) |
 | Data they share | **None.** Separate sign-in, database and storage | None |
 | Beta research | Opt-in, participants by number not name, off by default | Same, with de-identified team figures |
-| Next | Store apps after beta | Store apps after beta; Companion app, Coach app, Admin panel; FHIR and Smile CDR appSphere for hospitals |
+| Next | Store apps after beta; Companion app, Coach app, Admin panel; FHIR layer (see below) | Store apps after beta; Companion app, Coach app, Admin panel; FHIR and Smile CDR appSphere for hospitals (see below) |
+| GitHub | CodeConnections connection to the `linggollms` org, available | Same connection, created November 3 from the same GitHub App install |
 
 ## What is shared
 
@@ -99,7 +100,9 @@ Both app servers now have an ECS Fargate copy inside a private network, behind a
 
 ## Where it stands, and what comes before real patients
 
-As of November 2, 2026, no real patients use either app. Before they do: the web addresses switch to Fargate; the database API (PostgREST) moves off App Runner into the private network; the ASD/IDD database is rebuilt inside a private network from the CloudFormation kit; the databases get a standby in a second zone (Multi-AZ); a second internet exit (NAT) and AWS WAF go in front of the apps; and the open items in the HIPAA checks (secret rotation, storage access logs) are closed. Each app repo's `docs/architecture.md` holds the full list.
+Checked in the AWS console on November 3, 2026 (read-only): both accounts run one Fargate cluster with two tasks; both still serve through App Runner; both databases are single-zone; the Aphasia account has GuardDuty on with no findings, the HIPAA conformance pack deployed at 76% compliance and Security Hub on; the Aphasia Neptune cluster is built and stopped. The main account still holds an empty leftover Aphasia database and two paused Aphasia App Runner services from before the member account existed; they hold no user data and will be deleted. Nothing FHIR-related is built in either account.
+
+As of November 3, 2026, no real patients use either app. Before they do: the web addresses switch to Fargate; the database API (PostgREST) moves off App Runner into the private network; the ASD/IDD database is rebuilt inside a private network from the CloudFormation kit; the databases get a standby in a second zone (Multi-AZ); a second internet exit (NAT) and AWS WAF go in front of the apps; and the open items in the HIPAA checks (secret rotation, storage access logs) are closed. Each app repo's `docs/architecture.md` holds the full list.
 
 ## The data layer
 
@@ -125,6 +128,47 @@ Both products are web apps and home-screen PWAs today, on purpose: one build, ev
 
 The principle that drives all of this: the person owns their Linggo LLMs account for life. Someone with aphasia may first meet the app on a hospital tablet; their words, their meanings and their progress follow them to rehab, to outpatient therapy and home. A hospital, clinic or therapist is a care setting given access for a time; it never owns the account. A bedside tablet is only borrowed and is cleared for the next patient without deleting anything. Only the person, or a family member acting for them, can delete the account.
 
+## Hospitals and payers: the FHIR layer (proposed, November 3, 2026)
+
+Hospitals, clinics and payers exchange clinical data through HL7 FHIR R4. To work with them, each product account gets its own FHIR layer; the two never share one. Proposed, not built; the decision record is ADR-016.
+
+```mermaid
+flowchart TB
+EXT["Hospital and clinic EHRs · Smile CDR appSphere · payer prior-auth APIs (CRD · DTR · PAS)"]
+DME["DME supplier partner (future) · bills the device codes"]
+subgraph ORG["AWS Organization · one BAA"]
+direction LR
+subgraph A["Main account · ASD/IDD"]
+A1["Learner board · Companion · Coach · Admin<br/>ECS Fargate"] --> A2["FHIR connector in the app server<br/>consent check · mapping · audit"]
+A2 --> A3["Smile CDR (proposed) · FHIR R4<br/>private subnet, own Postgres"]
+A1 --> A4["RDS Postgres · S3 · Bedrock"]
+A4 -. soon .-> A5["Neptune"]
+end
+subgraph P["Aphasia member account"]
+P1["Learner board · Companion · Coach · Admin<br/>ECS Fargate"] --> P2["FHIR connector in the app server<br/>consent check · mapping · audit"]
+P2 --> P3["Smile CDR (proposed) · FHIR R4<br/>private subnet, own Postgres"]
+P1 --> P4["RDS Postgres · S3 · Bedrock · Neptune"]
+end
+end
+A3 <--> EXT
+P3 <--> EXT
+A3 -- DeviceRequest + evaluation --> DME
+P3 -- DeviceRequest + evaluation --> DME
+```
+
+**Where FHIR sits.** Beside Postgres, inside each account's private network, behind the same load balancer and WAF. A FHIR server (Smile CDR proposed, because the Coach app will be listed in Smile's appSphere and Smile's DTR and PAS modules cover the CMS-0057-F prior-authorization flow; AWS HealthLake is the fallback) runs in a private subnet with its own encrypted Postgres, reachable only by that account's app server. It is the single door to hospitals, payers and the future DME partner. Boards, every tap, voice, images and the Neptune graph stay in Linggo LLMs' own Postgres, Neptune and S3; only consented, minimum-necessary clinical data goes into FHIR, and the first version is a read-only SMART on FHIR launch.
+
+**The new apps.** Companion (families and carers; consent on the person's behalf), Coach (SLPs, BCBAs, RBTs; a SMART on FHIR app launched from the hospital EHR, with the SLP evaluation template built in) and Admin (clinics, schools, hospitals; organizations, care teams, payer and coverage records) are routes in the shared code base, deployed in each account the same way the board is. The reimbursement rule that shapes them: insurance pays for equipment through a DME supplier, or a licensed clinician's live time under a plan of care; it does not pay for an app subscription. Codes live in `billing-codes.md`.
+
+**Phases.**
+
+1. **Harden and clean up.** Delete the leftovers in the main account; switch both web addresses to Fargate and retire App Runner; PostgREST into the private network; rebuild the ASD/IDD database from the CloudFormation kit; Multi-AZ, second NAT, WAF; close the open HIPAA checks.
+2. **FHIR foundation.** Approve ADR-016; add a FHIR-server template to the kit, deploy Aphasia first; add the FHIR connector to the app server; map Consent, Coverage, ServiceRequest, QuestionnaireResponse and DocumentReference.
+3. **Coach app and appSphere.** Coach with the SLP evaluation template and a read-only SMART launch; test on the Smile sandbox; apply to appSphere.
+4. **Admin panel and the ASD/IDD graph.** Organizations, care teams, NPI and taxonomy, payer and coverage records; Neptune in the ASD/IDD account from the same template.
+5. **Billing and prior authorization.** Settle who submits the request (Coach app or clinic EHR), the first payer target and the DME partner; CRD → DTR → PAS; re-check 2027 codes when the CY2027 fee schedule is final.
+6. **Companion and store apps.** Companion with Consent and the lifelong account; iOS, Google Play and Amazon Appstore builds.
+
 ## Designed, not yet built
 
-Companion app (parents and caregivers), Coach app (clinicians; the live version after the beta), Admin panel (clinics, schools, hospitals), store apps, hospital connections through FHIR and the Smile CDR appSphere gallery, the Neptune write path, the email PHI intake, the in-app assistants, and the rebuild of the ASD/IDD environment from the CloudFormation kit. All are specified in the Aphasia repo's `docs/` and in architecture decision records ADR-001 to ADR-015.
+Companion app (parents and caregivers), Coach app (clinicians; the live version after the beta), Admin panel (clinics, schools, hospitals), store apps, hospital connections through FHIR and the Smile CDR appSphere gallery, the Neptune write path, the email PHI intake, the in-app assistants, and the rebuild of the ASD/IDD environment from the CloudFormation kit. All are specified in the Aphasia repo's `docs/` and in architecture decision records ADR-001 to ADR-015; the FHIR layer in the draft ADR-016 (`adr-016-fhir-layer.md`).
