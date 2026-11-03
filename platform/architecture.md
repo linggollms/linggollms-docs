@@ -2,7 +2,7 @@
 
 ## In one minute
 
-Linggo LLMs makes AAC (augmentative and alternative communication) software: a person with little or no speech taps pictures, words or sentences and the device speaks for them, in their own language. There are two products on one code base: one for children and youth with autism or IDD, one for adults with aphasia, dementia or brain injury. Both are in beta as web apps and home-screen PWAs, in five languages.
+Linggo LLMs makes AAC (augmentative and alternative communication) software: a person with little or no speech taps pictures, words or sentences and the device speaks for them, in their own language. There are two products on one code base: one for children and youth with autism or IDD, one for adults with aphasia, dementia or brain injury. Both are in beta as web apps and home-screen PWAs, in five languages, and close to release; the new public website is close to release too.
 
 The platform was rebuilt from scratch between September and November 2026 by the founder, a clinician, working with Claude Code, on an AWS environment designed for health information from the first day: one AWS Organization under one Business Associate Addendum, a separate account for each product so a child's words and an adult's words never share a database, private networks, encryption with each app's own keys, and automated HIPAA checks and audit logging in the account that holds health data.
 
