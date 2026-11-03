@@ -8,7 +8,9 @@ Public documentation for [Linggo LLMs](https://github.com/linggollms), AAC (augm
 | --- | --- |
 | [Why the code is private](why-the-code-is-private.md) | What a reader can and cannot see, and the reasons |
 | [History](platform/history.md) | Activity log: what was built, shipped and decided, with dates, since September 4, 2026 |
-| [Architecture](platform/architecture.md) | The AWS Organization, the two accounts, the HIPAA posture, the language graph |
+| [Architecture](platform/architecture.md) | The AWS Organization, the two accounts, the HIPAA posture, the language graph, and the planned FHIR layer (Smile CDR) for hospitals and payers |
+| [Billing codes](platform/billing-codes.md) | CMS codes for AAC evaluation, therapy, devices and training, mirrored from Notion; not billing advice |
+| [ADR-016](platform/adr-016-fhir-layer.md) | Decision record for the FHIR layer: one per product account, Smile CDR proposed |
 | [Linggo LLMs Aphasia](apps/aphasia.md) | The Aphasia product: what it is, stack, status |
 | [Linggo LLMs ASD/IDD](apps/asd-idd.md) | The ASD/IDD product: what it is, stack, status |
 | [Supporting repos](apps/support-repos.md) | Design system, training-video studio, ops robot, social agent, website |
