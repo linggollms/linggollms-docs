@@ -20,15 +20,15 @@ Current rules that still apply: each product lives in its own AWS account and th
 
 1. **One FHIR layer per product account.** The ASD/IDD (main) account and the Aphasia member account each get their own FHIR store and gateway. Nothing FHIR-related is shared across accounts.
 2. **FHIR store: Smile CDR (FHIR R4), proposed; AWS HealthLake as fallback.** Smile CDR is preferred because the Coach app will be listed in Smile's appSphere and its DTR and PAS modules cover the CMS-0057-F prior-authorization flow. It runs in a private subnet with its own encrypted Postgres, reachable only by the app server, created from a new CloudFormation template. Whether it is installed in-account or Smile-managed on AWS, and the BAA with Smile Digital Health, are open; if licensing or hosting does not fit a startup, HealthLake takes its place with the same boundary.
-3. **Postgres stays the record of everything.** Boards, every tap, voice and images stay in Linggo's Postgres and S3. The FHIR store holds only consented, minimum-necessary clinical data, written through the app.
-4. **FHIR connector inside the app server on ECS Fargate.** It checks the Learner's Consent before any FHIR write, maps Linggo records to FHIR resources, and writes an append-only access log entry for every read and write, kept one year. Clinician sign-in uses a staff Cognito pool federated to hospital identity; Learners and Companions use their own pool.
+3. **Postgres stays the record of everything.** Boards, every tap, voice and images stay in Linggo LLMs's Postgres and S3. The FHIR store holds only consented, minimum-necessary clinical data, written through the app.
+4. **FHIR connector inside the app server on ECS Fargate.** It checks the Learner's Consent before any FHIR write, maps Linggo LLMs records to FHIR resources, and writes an append-only access log entry for every read and write, kept one year. Clinician sign-in uses a staff Cognito pool federated to hospital identity; Learners and Companions use their own pool.
 5. **Neptune never leaves the account.** Only summaries derived from the graph (for example, an Observation of vocabulary growth) become FHIR resources. The graph itself and the patented word-tree logic stay internal.
 6. **The new apps are routes in the shared code base,** deployed in each account the same way the Learner board is. Coach and Admin use the FHIR connector. The Learner board and Companion talk to Postgres as today. The SLP evaluation template is built into the Coach app (decided Nov 3, 2026) and supplies the DTR answers.
 7. **First version is read-only SMART launch.** Write scopes (ServiceRequest, QuestionnaireResponse, Claim) come later, agreed per hospital and payer. Whether the Coach app or the clinic EHR submits the PAS request is open. Speech-generating devices (E2510/E2511) are billed by a DME supplier partner, not by Linggo LLMs.
 
 ## First resource mapping
 
-| Linggo record | FHIR resource | Written by |
+| Linggo LLMs record | FHIR resource | Written by |
 |---|---|---|
 | Learner's time-limited grant to a Coach or organization | Consent | Learner / Companion |
 | Learner's plan and member number | Coverage | Admin |
@@ -46,10 +46,10 @@ Not in FHIR: boards, taps, the Neptune graph, voice and images. Remote-monitorin
 
 | Option | For | Against |
 |---|---|---|
-| **Smile CDR in-account** (proposed) | Same vendor as appSphere; DTR and PAS modules; full control of the boundary | Licence cost; Linggo runs and patches it; BAA with Smile needed |
-| Smile CDR managed on AWS | Less to run; Smile operates it | Data leaves Linggo's account; needs a BAA and a clear boundary; cost |
+| **Smile CDR in-account** (proposed) | Same vendor as appSphere; DTR and PAS modules; full control of the boundary | Licence cost; Linggo LLMs runs and patches it; BAA with Smile needed |
+| Smile CDR managed on AWS | Less to run; Smile operates it | Data leaves Linggo LLMs's account; needs a BAA and a clear boundary; cost |
 | AWS HealthLake (fallback) | Managed, HIPAA-eligible, in-account, little to run | No DTR/PAS modules; appSphere listing must be done separately |
-| Self-run HAPI FHIR | Free software, full control | Linggo builds the prior-auth flow itself |
+| Self-run HAPI FHIR | Free software, full control | Linggo LLMs builds the prior-auth flow itself |
 | One FHIR store for both products | Less to run | Breaks the rule that the products never share data; the hub notes ASD/IDD sits in the management account and needs its own instance or a move |
 
 ## Consequences
@@ -63,7 +63,7 @@ Not in FHIR: boards, taps, the Neptune graph, voice and images. Remote-monitorin
 
 1. Smile CDR hosting: in-account install or Smile-managed on AWS, and on what licensing terms; standard BAA terms.
 2. CRD: a Smile module, or part of the payer package? PAS early-access timeline for a provider-side vendor.
-3. Who submits the PAS request: the Coach app directly, or the clinic EHR with Linggo supplying the evaluation?
+3. Who submits the PAS request: the Coach app directly, or the clinic EHR with Linggo LLMs supplying the evaluation?
 4. First payer target: Medicare, Medicaid or commercial.
 5. One Smile CDR instance per product (this ADR), confirmed with Smile for multi-product licensing.
-6. DME partner candidates and PDAC coding guidance for a locked Linggo device.
+6. DME partner candidates and PDAC coding guidance for a locked Linggo LLMs device.
