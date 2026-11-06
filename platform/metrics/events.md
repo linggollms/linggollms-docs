@@ -44,14 +44,18 @@ All events carry: `event_id`, `learner_id` (internal ID, never a name), `account
 | `feedback_submitted` | `type` (text, voice, symbols), `topic`, `rating` (optional), `body_ref` | Body stored in AWS; only `body_ref` in analytics |
 | `comment_submitted` | `type`, `body_ref` | Messages and comments from Companions to Linggo LLMs |
 | `safety_issue` | `status` (opened, closed), `severity` | Gate: zero open |
-| `subscription_event` (Phase B) | `kind` (started, renewed, cancelled, refunded), `plan`, `amount`, `channel` (stripe, apple, google) | Plan names and prices: see section 4a |
+| `subscription_event` (Phase B) | `kind` (started, renewed, cancelled, refunded), `plan` (founding_asd_idd_100), `amount`, `channel` (stripe, apple, google) | Founding prices: see section 4a |
 
-### 4a. Price to confirm
+### 4a. Founding prices
 
-This spec used the plan name `founding_150` (a $150 founding price, reserved at waitlist sign-up). The website's beta pricing wording (5 Nov 2026) says the ASD/IDD course costs $100 a year during the beta. Ling to confirm before Phase B:
+Decided by Ling on 2026-11-06. Founding members pay:
 
-- whether these are two products (app membership and course) or one, and
-- the plan names and prices `subscription_event` should carry.
+| Line | Plan name | Price |
+| --- | --- | --- |
+| ASD/IDD | `founding_asd_idd_100` | $100 a year |
+| Aphasia | `founding_aphasia_60` | $60 a year (used from Phase E) |
+
+The founding price is reserved at waitlist sign-up. The price goes up after the beta.
 
 ## 5. Counting rules
 
