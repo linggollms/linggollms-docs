@@ -11,6 +11,7 @@ Public documentation for [Linggo LLMs](https://github.com/linggollms), AAC (augm
 | [Architecture](platform/architecture.md) | The AWS Organization, the two accounts, the HIPAA posture, the language graph, and the planned FHIR layer (Smile CDR) for hospitals and payers |
 | [Billing codes](platform/billing-codes.md) | CMS codes for AAC evaluation, therapy, devices and training, mirrored from Notion; not billing advice |
 | [ADR-016](platform/adr-016-fhir-layer.md) | Decision record for the FHIR layer: one per product account, Smile CDR proposed |
+| [Metrics spec (ASD/IDD)](platform/metrics/events.md) | Draft: what the ASD/IDD app counts in Wave 1 (communication, word use, retention), who sees it, and the privacy rules |
 | [Linggo LLMs Aphasia](apps/aphasia.md) | The Aphasia product: what it is, stack, status |
 | [Linggo LLMs ASD/IDD](apps/asd-idd.md) | The ASD/IDD product: what it is, stack, status |
 | [Supporting repos](apps/support-repos.md) | Design system, training-video studio, ops robot, social agent, website |
