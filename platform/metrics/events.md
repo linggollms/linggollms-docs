@@ -48,12 +48,12 @@ All events carry: `event_id`, `learner_id` (internal ID, never a name), `account
 
 ### 4a. Founding prices
 
-Decided by Ling on 2026-11-06. Founding members pay:
+Confirmed and locked by Ling on 2026-11-06. Founding members pay:
 
 | Line | Plan name | Price |
 | --- | --- | --- |
 | ASD/IDD | `founding_asd_idd_100` | $100 a year |
-| Aphasia | `founding_aphasia_60` | $60 a year (used from Phase E) |
+| Aphasia | `founding_aphasia_75` | $75 a year (used from Phase E) |
 
 The founding price is reserved at waitlist sign-up. The price goes up after the beta.
 
